@@ -1,0 +1,14 @@
+#! /bin/bash
+
+mkdir ./protein_structure
+mkdir ./protein_structure/01_data
+mkdir ./protein_structure/02_parse
+mkdir ./protein_structure/03_visualisation
+mkdir ./protein_structure/01_data/results
+mkdir ./protein_structure/02_parse/data
+mkdir ./protein_structure/02_parse/results
+mkdir ./protein_structure/03_visualisation/results
+touch ./protein_structure/01_data/01run.sh
+touch ./protein_structure/03_visualisation/results/03result.csv
+echo 'wget ftp://ftp.ebi.ac.uk/pub/databases/pdb/data/structures/divided/pdb' > ./protein_structure/01_data/01run.sh
+ln -s ./protein_structure/01_data/results/ ./protein_structure/02_parse/data/ #/path/to/source /path/to/link
