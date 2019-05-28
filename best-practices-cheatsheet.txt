@@ -192,5 +192,7 @@ git checkout -- .
 git clone https://github.com/...
 git remote set-url origin https://github.com/...
 git remote -v
-git push origin master
+git push origin (master)
+git fetch origin (master)
+git merge other-branch
 git log

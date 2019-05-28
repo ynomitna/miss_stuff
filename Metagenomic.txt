@@ -1,0 +1,35 @@
+--ncbi for downloading seqences from there, angeben welches taxon
+--n_genomes_ncbi for indicating how many genomes i want to download
+--n_reads default is 1000000 for choosing how many reads i want to download
+--model for choosing the error model which will be used for the generating eg MiSeq
+--output for the filenames of the ouput files
+-cpus for the number of cpus i want to use
+
+iss generate --ncbi bacteria archaea --n_genomes_ncbi 2 1 --n_reads 1000000 --model MiSeq --
+output ncbi_lc -cpus 8
+
+shows the abundance of downloaded sequences
+cat ncbi_lc_abundance.txt
+
+shows the organisms from which the sequences are
+grep ">" ncbi_lc_ncbi_genomes.fasta
+
+overall overview about the data
+seqstats ncbi_lc_R1.fastq
+
+quality control
+fastqc --outdir ./fastqc/ *.fastq
+
+seqtk
+seqtk sample -s100 ./data/ncbi_lc_R1.fastq 20000 > sub_R1.fq
+seqtk sample -s100 ./data/ncbi_lc_R2.fastq 20000 > sub_R2.fq
+
+metaphlan
+metaphlan2.py ./sub_R1.fastq  --input_type fastq > metaphlan_R1.txt
+metaphlan2.py ./sub_R2.fastq --input_type fastq > metaphlan_R2.txt
+metaphlan2krona.py -p metaphlan_R1.txt -k krona_R1.txt
+metaphlan2krona.py -p metaphlan_R2.txt -k krona_R2.txt
+(metaphlan2.py sub_R1.fastq, sub_R2.fastq --bowtie2out metagenomes.bowtie2.bz2 --nproc 4 --input_type fastq > R1_R2.txt hat bei mir nicht geklappt)
+ktImportText -o krona_R1.html krona_R1.txt
+
+
