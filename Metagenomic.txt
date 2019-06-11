@@ -20,16 +20,25 @@ seqstats ncbi_lc_R1.fastq
 quality control
 fastqc --outdir ./fastqc/ *.fastq
 
-seqtk
-seqtk sample -s100 ./data/ncbi_lc_R1.fastq 20000 > sub_R1.fq
-seqtk sample -s100 ./data/ncbi_lc_R2.fastq 20000 > sub_R2.fq
+Seqtk
+Seqtk is a fast and lightweight tool for processing sequences in the FASTA or FASTQ format.
 
-metaphlan
-metaphlan2.py ./sub_R1.fastq  --input_type fastq > metaphlan_R1.txt
-metaphlan2.py ./sub_R2.fastq --input_type fastq > metaphlan_R2.txt
+seqtk sample -s100 ./data/ncbi_lc_R1.fastq 20000 > sub_R1.fq
+Subsample 20000 read pairs from two large paired FASTQ files with a seed value of 100
+
+MetaPhlAn
+The basic usage of MetaPhlAn 2 consists in the identification of the clades (from phyla to species and strains in particular cases) present in the metagenome obtained from a microbiome sample and their relative abundance.
+
+metaphlan2.py ./sub_R1.fastq --input_type fastq > metaphlan_R1.txt
+Profiling a metagenome from raw reads, the output file consists of the predicted taxon relative abundances
+
+
 metaphlan2krona.py -p metaphlan_R1.txt -k krona_R1.txt
-metaphlan2krona.py -p metaphlan_R2.txt -k krona_R2.txt
+The input MetaPhlAn result file will be converted to a format required by Krona
+
 (metaphlan2.py sub_R1.fastq, sub_R2.fastq --bowtie2out metagenomes.bowtie2.bz2 --nproc 4 --input_type fastq > R1_R2.txt hat bei mir nicht geklappt)
+
 ktImportText -o krona_R1.html krona_R1.txt
+Run to to generate an interactive Krona html file
 
 
